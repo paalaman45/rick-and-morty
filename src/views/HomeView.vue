@@ -1,12 +1,15 @@
 <template>
-  <div class="bg-white py-24 sm:py-32 h-dvh flex justify-center items-center">
+  <HeaderSection />
+  <div class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <ul role="list" class="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+      <ul role="list" class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
         <li v-for="menu in menus" :key="menu.name" class="shadow">
-          <img class="aspect-[3/2] w-full rounded-2xl object-cover" :src="menu.imageUrl" alt="" />
-          <div class="p-2">
-            <RouterLink :to="{ name: menu.route }"><h1 class="p-2 mt-2 text-base/7 font-semibold text-indigo-400 text-center">{{ menu.name }}</h1></RouterLink>
-          </div>
+          <RouterLink :to="{ name: menu.route }">
+            <img class="aspect-[3/2] w-full rounded-2xl object-cover" :src="menu.imageUrl" alt="" />
+            <div class="p-2">
+              <h1 class="p-2 mt-2 text-base/7 font-semibold text-indigo-400 text-center">{{ menu.name }}</h1>
+            </div>
+          </RouterLink>
         </li>
       </ul>
     </div>
@@ -14,6 +17,7 @@
 </template>
 
 <script setup>
+  import HeaderSection from '../components/HeaderSections.vue';
   const menus = [
     {
       name: 'Character',

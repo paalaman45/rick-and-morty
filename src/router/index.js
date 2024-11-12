@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import CharactersView from '@/views/CharactersView.vue'
 import CharacterView from '@/views/CharacterView.vue'
 import EpisodeView from '@/views/EpisodeView.vue'
+import EpisodesView from '@/views/EpisodesView.vue'
+import LocationsView from '@/views/LocationsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,14 +33,14 @@ const router = createRouter({
       component: CharacterView,
     },
     {
-      path: '/locations',
+      path: '/locations/',
       name: 'locations',
-      component: CharactersView,
+      component: LocationsView,
     },
     {
       path: '/episodes',
       name: 'episodes',
-      component: CharactersView,
+      component: EpisodesView,
     },
     {
       path: '/episode/:id',
