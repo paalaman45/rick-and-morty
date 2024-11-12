@@ -1,35 +1,70 @@
 <template>
   <CharactersSections />
-  <!-- <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-      <div v-for="character in characters" :key="character.id">
-        <RouterLink :to="{ path: `/character/${character.id}` }">
-          <div class="relative">
-            <div class="relative h-72 w-full overflow-hidden rounded-lg">
-              <img :src="character.image" alt="character.name" class="h-full w-full object-cover object-center" />
-            </div>
-            <div class="relative mt-4">
-              <h3 class="text-sm font-medium text-gray-900">{{ character.name }}</h3>
-              <p class="mt-1 text-sm text-gray-500">Gender: {{ character.gender }}</p>
-              <p class="mt-1 text-sm text-gray-500">Species: {{ character.species }}</p>
-              <p class="mt-1 text-sm text-gray-500">Origin: {{ character.origin.name }}</p>
-            </div>
-            <div class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
-              <div :class="[
-                'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium',
-                character.status === 'Alive' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
-                'md:mt-2 lg:mt-0'
-              ]">{{ character.status }}
-              </div>
-            </div>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 pb-10">
+    <!-- OPEN -->
+    <Disclosure as="section" aria-labelledby="filter-heading" class="grid items-center border-gray-200 mb-10">
+      <h2 id="filter-heading" class="sr-only">Filters</h2>
+      <div class="relative col-start-1 row-start-1 py-4">
+        <div class="flex w-full space-x-6 divide-x divide-gray-200 px-4 text-sm sm:px-6 lg:px-8">
+          <div>
+            <DisclosureButton class="group flex items-center font-medium text-gray-700">
+              <FunnelIcon class="mr-2 h-5 w-5 flex-none text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+              2 Filters
+            </DisclosureButton>
           </div>
-        </RouterLink>
+          <div class="pl-6">
+            <button type="button" class="text-gray-500">Clear all</button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div> -->
-
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <DisclosurePanel class="border-t border-gray-200 py-10">
+        <div class="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 px-4 text-sm sm:px-6 md:gap-x-6 lg:px-8">
+          <div class="grid auto-rows-min grid-cols-1 gap-y-10 md:grid-cols-2 md:gap-x-6">
+            <fieldset>
+              <legend class="block font-medium">Status</legend>
+              <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
+                <div v-for="(option, optionIdx) in filters.price" :key="option.value" class="flex items-center text-base sm:text-sm">
+                  <input :id="`price-${optionIdx}`" name="price[]" :value="option.value" type="checkbox" class="h-4 w-4 shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" :checked="option.checked" />
+                  <label :for="`price-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{ option.label }}</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="block font-medium">Species</legend>
+              <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
+                <div v-for="(option, optionIdx) in filters.color" :key="option.value" class="flex items-center text-base sm:text-sm">
+                  <input :id="`color-${optionIdx}`" name="color[]" :value="option.value" type="checkbox" class="h-4 w-4 shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" :checked="option.checked" />
+                  <label :for="`color-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{ option.label }}</label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div class="grid auto-rows-min grid-cols-1 gap-y-10 md:grid-cols-2 md:gap-x-6">
+            <fieldset>
+              <legend class="block font-medium">Type</legend>
+              <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
+                <div v-for="(option, optionIdx) in filters.size" :key="option.value" class="flex items-center text-base sm:text-sm">
+                  <input :id="`size-${optionIdx}`" name="size[]" :value="option.value" type="checkbox" class="h-4 w-4 shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" :checked="option.checked" />
+                  <label :for="`size-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{ option.label }}</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="block font-medium">Gender</legend>
+              <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
+                <div v-for="(option, optionIdx) in filters.category" :key="option.value" class="flex items-center text-base sm:text-sm">
+                  <input :id="`category-${optionIdx}`" name="category[]" :value="option.value" type="checkbox" class="h-4 w-4 shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" :checked="option.checked" />
+                  <label :for="`category-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{ option.label }}</label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </DisclosurePanel>
+    </Disclosure>
+    <!-- CLOSE -->
     <div class="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-4 mb-5">
+      
       <div  v-for="character in characters" :key="character.id" class="relative overflow-hidden rounded-lg border bg-white select-none shadow hover:shadow-lg">
           <div class="flex flex-col justify-between rounded-md">
               <div class="space-y-2">
@@ -132,4 +167,44 @@
   function goToPreviousPage() {
     if (pagination.value.prev) page.value--;
   }
+
+  import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+  import { ChevronDownIcon, FunnelIcon } from '@heroicons/vue/20/solid'
+
+  const filters = {
+  price: [
+    { value: 'Alive', label: 'Alive', checked: false },
+    { value: 'Dead', label: 'Dead', checked: false },
+  ],
+  color: [
+    { value: 'Human', label: 'Human', checked: false },
+    { value: 'Alien', label: 'Alien', checked: false },
+    { value: 'Mythological Creature', label: 'Mythological Creature', checked: true },
+    { value: 'Poopybutthole', label: 'Poopybutthole', checked: false },
+    { value: 'Animal', label: 'Animal', checked: false },
+    { value: 'Humanoid', label: 'Humanoid', checked: false },
+    { value: 'Robot', label: 'Robot', checked: false },
+    { value: 'Disease', label: 'Disease', checked: false },
+    { value: 'Cronenberg', label: 'Cronenberg', checked: false },
+  ],
+  size: [
+    { value: 'xs', label: 'XS', checked: false },
+    { value: 's', label: 'S', checked: true },
+    { value: 'm', label: 'M', checked: false },
+    { value: 'l', label: 'L', checked: false },
+    { value: 'xl', label: 'XL', checked: false },
+    { value: '2xl', label: '2XL', checked: false },
+  ],
+  category: [
+    { value: 'female', label: 'Female', checked: false },
+    { value: 'male', label: 'Male', checked: false },
+    { value: 'genderless', label: 'Genderless', checked: false },
+    { value: 'unknown', label: 'Unknown', checked: false },
+  ],
+}
+const sortOptions = [
+  { name: 'Most Popular', href: '#', current: true },
+  { name: 'Best Rating', href: '#', current: false },
+  { name: 'Newest', href: '#', current: false },
+]
 </script>
