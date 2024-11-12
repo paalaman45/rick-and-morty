@@ -8,7 +8,7 @@
             <img class="h-10 w-auto" :src="brandUrl" alt="" />
           </a>
           <div class="ml-10 hidden space-x-8 lg:block">
-            <a v-for="link in navigation" :key="link.name" :href="link.href" class="text-base font-medium text-gray-800 hover:text-gray-500">{{ link.name }}</a>
+            <RouterLink v-for="link in navigation" :key="link.name" :to="{ name: link.href }" class="text-base font-medium text-gray-800 hover:text-gray-500">{{ link.name }}</RouterLink>
           </div>
         </div>
       </div>

@@ -1,20 +1,21 @@
 <template>
-  <div class="bg-white py-24 sm:py-32 h-dvh">
-    <div class="bg-white md:mx-auto rounded shadow-xl w-full md:w-1/2 overflow-hidden">
-      <div class="h-[140px] bg-gradient-to-r from-cyan-500 to-blue-500"></div>
+  <CharactersSections />
+  <div class="bg-white">
+    <div class="bg-white md:mx-auto rounded shadow-xl w-full md:w-1/2">
       <div class="px-5 py-2 flex flex-col gap-3 pb-6">
-        <div class="h-[90px] shadow-md w-[90px] rounded-full border-4 overflow-hidden -mt-14 border-white"><img :src="character.image"></div>
-        <div class="">
-          <h3 class="text-xl text-slate-900 relative font-bold leading-6">{{ character.name }}</h3>
+        <div class="w-full flex justify-center relative">
+          <div class="relative z-10 h-[150px] shadow-md w-[150px] rounded-full border-4 overflow-hidden -mt-14 border-white"><img :src="character.image"></div>
         </div>
-        <div class="flex gap-3 flex-wrap">
+        <div class="">
+          <h3 class="text-xl text-slate-900 relative font-bold leading-6 text-center">{{ character.name }}</h3>
+        </div>
+        <div class="flex gap-3 justify-center">
           <span class="rounded-sm bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-800">Gender: {{ character.gender }}</span>
           <span class="rounded-sm bg-green-100 px-3 py-1 text-xs font-medium text-green-800">Status: {{ character.status }}</span>
           <span class="rounded-sm bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">Species: {{ character.species }}</span>
           <span class="rounded-sm bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-800">Origin: {{ origin ?? 'unknown' }}</span>
+          <span class="rounded-sm bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-800">Locations: {{ location ?? 'unkown' }}</span>
         </div>
-        <h4 class="text-md font-medium leading-3">Locations</h4>
-        <p class="text-sm text-gray-600">{{ location ?? 'unkown' }}</p>
         <h4 class="text-md font-medium leading-3">Episodes</h4>
         <p class="text-sm text-gray-600">Episode where {{ character.name }} was seen in the series.</p>
         <div class="flex flex-col gap-3">
@@ -41,6 +42,7 @@
 </template>
 
 <script setup>
+  import CharactersSections from '@/components/CharactersSections.vue';
   import { useRoute, useRouter } from 'vue-router';
   import axios from 'axios';
   import { onMounted, ref } from 'vue';

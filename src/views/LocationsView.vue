@@ -80,7 +80,6 @@
       console.error('Error fetching characters: ', err);
     }
   }
-  fetchLocations();
 
   watch(page, fetchLocations, { immediate: true });
 

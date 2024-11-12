@@ -3,10 +3,10 @@
   <!-- OPEN -->
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <div class="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-4 mb-5">
-      <div v-for="episode in episodes" :key="episode.id" class="relative overflow-hidden rounded-lg border bg-white select-none shadow hover:shadow-lg">
+      <div v-for="episode in episodes" :key="episode.id" class="relative overflow-hidden rounded-lg border bg-white shadow hover:shadow-lg">
           <div class="flex flex-col justify-between rounded-md">
               <div class="space-y-2">
-                  <h3 class="font-bold text-center py-2 bg-gray-600 text-white">{{ episode.name }}</h3>
+                  <RouterLink :to="{ path: `/episode/${episode.id}` }"><h3 class="font-bold text-center py-2 bg-gray-600 text-white underline">{{ episode.name }}</h3></RouterLink>
                   <div class="flex justify-between p-2">
                     <div class="flex-col">
                       <p class="text-sm text-gray-600 text-center font-black">AIR DATE</p>
@@ -79,8 +79,6 @@
       console.error('Error fetching episodes: ', err);
     }
   }
-
-  fetchEpisodes();
 
   const initials = computed(() => {
   const words = episode.name.trim().split(/\s+/);

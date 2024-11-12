@@ -1,11 +1,10 @@
 <template>
-  <div v-if="Found" class="bg-white py-24 sm:py-32 h-dvh">
+  <EpisodeSections />
+  <div v-if="Found" class="bg-white">
     <div class="bg-white md:mx-auto rounded shadow-xl w-full md:w-1/2 overflow-hidden">
-      <div class="h-[140px] bg-gradient-to-r from-cyan-500 to-blue-500">
-      </div>
       <div class="px-5 py-2 flex flex-col gap-3 pb-6">
         <div class="mt-5">
-          <h3 class="text-xl text-slate-900 relative font-bold leading-6">{{ EpName ?? '' }}</h3>
+          <h1 class="text-xl text-slate-900 relative font-bold leading-1 text-center">{{ EpName ?? '' }}</h1>
         </div>
         <div class="flex gap-3 flex-wrap">
           <span class="rounded-sm bg-yellow-100 px-3 py-1 text-lg font-medium text-yellow-800">{{ Ep ?? '' }}</span>
@@ -47,6 +46,7 @@
 </template>
 
 <script setup>
+  import EpisodeSections from '@/components/EpisodeSections.vue';
   import axios from 'axios';
   import { useRoute } from 'vue-router';
   import { ref, onMounted } from 'vue';

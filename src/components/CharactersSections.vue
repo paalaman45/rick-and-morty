@@ -10,10 +10,57 @@
       <h2 class="text-5xl font-semibold tracking-tight text-white sm:text-7xl">{{ title }}</h2>
       <p class="mt-8 text-pretty text-lg font-medium text-gray-400 sm:text-xl/8">{{ description }}</p>
     </div>
+    <div class="flex justify-center mt-4">
+      <nav class="flex" aria-label="Breadcrumb">
+        <ol role="list" class="flex items-center space-x-4">
+          <li>
+            <div>
+              <RouterLink :to="{ name: 'home' }" class="text-white hover:text-gray-200">
+                <HomeIcon class="h-5 w-5 shrink-0" aria-hidden="true" />
+                <span class="sr-only">Home</span>
+              </RouterLink>
+            </div>
+          </li>
+          <li v-for="page in pages" :key="page.name">
+            <div class="flex items-center">
+              <svg class="h-5 w-5 shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+              </svg>
+              <RouterLink :to="{ name: page.href }" class="ml-4 text-sm font-medium text-white hover:text-gray-200">{{ page.name }}</RouterLink>
+            </div>
+          </li>
+        </ol>
+      </nav>
+    </div>
   </div>
 </template>
 
 <script setup>
   const title = "Characters";
   const description = "Explore all Rick and Morty Known Characters!";
+
+
+  import { HomeIcon } from '@heroicons/vue/20/solid';
+  import { ref, onMounted } from 'vue';
+  import { previousRouteName } from '@/router';
+
+  const pages = ref([ 
+    { name: 'Characters', href: 'characters', current: false },
+  ]);
+
+  const previousPage = ref(previousRouteName);
+
+
+  onMounted(() => {
+    console.log('Previous route name:', previousPage.value);
+    if(previousPage.value){
+      const capitalizedPage = previousPage.value.charAt(0).toUpperCase() + previousPage.value.slice(1);
+      pages.value.push({
+        name: `${capitalizedPage}`, 
+        href: previousPage.value,
+        current: false,
+      });
+    }
+    
+  });
 </script>
