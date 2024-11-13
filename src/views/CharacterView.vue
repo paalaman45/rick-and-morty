@@ -2,7 +2,7 @@
   <CharactersSections />
   <div class="bg-white">
     <div class="bg-white md:mx-auto rounded shadow-xl w-full md:w-1/2">
-      <div class="px-5 py-2 flex flex-col gap-3 pb-6">
+      <div v-if="Found" class="px-5 py-2 flex flex-col gap-3 pb-6">
         <div class="w-full flex justify-center relative">
           <div class="relative z-10 h-[150px] shadow-md w-[150px] rounded-full border-4 overflow-hidden -mt-14 border-white"><img :src="character.image"></div>
         </div>
@@ -36,6 +36,10 @@
           </ul>
         </div>
       </div>
+
+      <div v-else class="py-5">
+        <h4 class="text-md font-medium leading-3 text-center">CHARACTER NOT FOUND!</h4>
+      </div>
     </div>
   </div>
   
@@ -55,6 +59,7 @@
   const colors = ['bg-pink-600', 'bg-purple-600', 'bg-yellow-500', 'bg-green-500', 'bg-blue-500', 'bg-red-500'];
   const location = ref(null);
   const origin = ref(null);
+  const Found = ref(true);
 
   console.log("Character ID: " +characterId);
 
@@ -69,6 +74,7 @@
       console.log("API response:", response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
+      Found.value = false;
     }
   };
   
