@@ -2,7 +2,7 @@
   <CharactersSections />
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 pb-10">
     <!-- OPEN -->
-    <Disclosure as="section" aria-labelledby="filter-heading" class="grid items-center border-gray-200 mb-10">
+    <!-- <Disclosure as="section" aria-labelledby="filter-heading" class="grid items-center border-gray-200 mb-10">
       <h2 id="filter-heading" class="sr-only">Filters</h2>
       <div class="relative col-start-1 row-start-1 py-4">
         <div class="flex w-full space-x-6 divide-x divide-gray-200 px-4 text-sm sm:px-6 lg:px-8">
@@ -23,7 +23,7 @@
             <fieldset>
               <legend class="block font-medium">Status</legend>
               <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
-                <div v-for="(option, optionIdx) in filters.price" :key="option.value" class="flex items-center text-base sm:text-sm">
+                <div v-for="(option, optionIdx) in filters.type" :key="option.value" class="flex items-center text-base sm:text-sm">
                   <input :id="`price-${optionIdx}`" name="price[]" :value="option.value" type="checkbox" class="h-4 w-4 shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" :checked="option.checked" />
                   <label :for="`price-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{ option.label }}</label>
                 </div>
@@ -32,7 +32,7 @@
             <fieldset>
               <legend class="block font-medium">Species</legend>
               <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
-                <div v-for="(option, optionIdx) in filters.color" :key="option.value" class="flex items-center text-base sm:text-sm">
+                <div v-for="(option, optionIdx) in filters.species" :key="option.value" class="flex items-center text-base sm:text-sm">
                   <input :id="`color-${optionIdx}`" name="color[]" :value="option.value" type="checkbox" class="h-4 w-4 shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" :checked="option.checked" />
                   <label :for="`color-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{ option.label }}</label>
                 </div>
@@ -43,7 +43,7 @@
             <fieldset>
               <legend class="block font-medium">Type</legend>
               <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
-                <div v-for="(option, optionIdx) in filters.size" :key="option.value" class="flex items-center text-base sm:text-sm">
+                <div v-for="(option, optionIdx) in filters.type" :key="option.value" class="flex items-center text-base sm:text-sm">
                   <input :id="`size-${optionIdx}`" name="size[]" :value="option.value" type="checkbox" class="h-4 w-4 shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" :checked="option.checked" />
                   <label :for="`size-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{ option.label }}</label>
                 </div>
@@ -52,7 +52,7 @@
             <fieldset>
               <legend class="block font-medium">Gender</legend>
               <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
-                <div v-for="(option, optionIdx) in filters.category" :key="option.value" class="flex items-center text-base sm:text-sm">
+                <div v-for="(option, optionIdx) in filters.gender" :key="option.value" class="flex items-center text-base sm:text-sm">
                   <input :id="`category-${optionIdx}`" name="category[]" :value="option.value" type="checkbox" class="h-4 w-4 shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" :checked="option.checked" />
                   <label :for="`category-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{ option.label }}</label>
                 </div>
@@ -61,7 +61,8 @@
           </div>
         </div>
       </DisclosurePanel>
-    </Disclosure>
+    </Disclosure> -->
+    <CharacterFilter @filterApplied="fetchFilteredData" />
     <!-- CLOSE -->
     <div class="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-4 mb-5">
       
@@ -133,7 +134,9 @@
   import { ref, watch } from 'vue';
   import CharactersSections from '@/components/CharactersSections.vue';
   import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/vue/20/solid';
+  import CharacterFilter from '@/components/CharacterFilter.vue';
 
+  const urlFilter = ref(null);
   const characters = ref([]);
   const page = ref(1);
   const pagination = ref({
@@ -145,7 +148,7 @@
   async function fetchCharacter() {
     try {
       console.log("Fetching character data...");
-      const response = await axios.get('https://rickandmortyapi.com/api/character?page=' + page.value);
+      const response = await axios.get('https://rickandmortyapi.com/api/character?page=' + page.value + urlFilter.value);
       pagination.value = {
         pages: response.data.info.pages,
         next: response.data.info.next,
@@ -168,43 +171,18 @@
     if (pagination.value.prev) page.value--;
   }
 
-  import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-  import { ChevronDownIcon, FunnelIcon } from '@heroicons/vue/20/solid'
-
-  const filters = {
-  price: [
-    { value: 'Alive', label: 'Alive', checked: false },
-    { value: 'Dead', label: 'Dead', checked: false },
-  ],
-  color: [
-    { value: 'Human', label: 'Human', checked: false },
-    { value: 'Alien', label: 'Alien', checked: false },
-    { value: 'Mythological Creature', label: 'Mythological Creature', checked: true },
-    { value: 'Poopybutthole', label: 'Poopybutthole', checked: false },
-    { value: 'Animal', label: 'Animal', checked: false },
-    { value: 'Humanoid', label: 'Humanoid', checked: false },
-    { value: 'Robot', label: 'Robot', checked: false },
-    { value: 'Disease', label: 'Disease', checked: false },
-    { value: 'Cronenberg', label: 'Cronenberg', checked: false },
-  ],
-  size: [
-    { value: 'xs', label: 'XS', checked: false },
-    { value: 's', label: 'S', checked: true },
-    { value: 'm', label: 'M', checked: false },
-    { value: 'l', label: 'L', checked: false },
-    { value: 'xl', label: 'XL', checked: false },
-    { value: '2xl', label: '2XL', checked: false },
-  ],
-  category: [
-    { value: 'female', label: 'Female', checked: false },
-    { value: 'male', label: 'Male', checked: false },
-    { value: 'genderless', label: 'Genderless', checked: false },
-    { value: 'unknown', label: 'Unknown', checked: false },
-  ],
-}
-const sortOptions = [
-  { name: 'Most Popular', href: '#', current: true },
-  { name: 'Best Rating', href: '#', current: false },
-  { name: 'Newest', href: '#', current: false },
-]
+  function fetchFilteredData(filterData) {
+    page.value = 1;
+    urlFilter.value = "";
+    console.log('Fetching products with filters:', filterData);
+    for (const [key, values] of Object.entries(filterData)) {
+      if (values && values.length > 0) {
+        values.forEach(value => {
+          urlFilter.value += `&${key}=${encodeURIComponent(value)}`;
+        });
+      }
+    }
+    console.log("URL Filter:", urlFilter.value);
+    fetchCharacter();
+  }
 </script>
